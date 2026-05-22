@@ -1,0 +1,8 @@
+streamlit
+pandas
+plotly
+pydantic
+duckdb
+pytest
+pyyaml
+google-generativeai
