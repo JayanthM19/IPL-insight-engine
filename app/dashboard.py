@@ -9,6 +9,8 @@ import plotly.graph_objects as go
 import sys
 from pathlib import Path
 from analytics.pressure_meter import pressure_score
+from analytics.team_summary import generate_team_summary
+from analytics.match_story import generate_match_story
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 
@@ -90,6 +92,33 @@ AI-Powered Cricket Intelligence Platform
 Built with fault-tolerant pipelines and advanced analytics.
 """)
 
+st.markdown("""
+<div style="
+padding: 25px;
+border-radius: 20px;
+background: linear-gradient(
+135deg,
+rgba(0,255,200,0.08),
+rgba(0,120,255,0.08)
+);
+border: 1px solid rgba(255,255,255,0.1);
+margin-bottom: 25px;
+">
+
+# AI-Powered Cricket Intelligence
+
+Advanced IPL analytics platform featuring:
+
+- Team DNA Profiling
+- Pressure Analytics
+- Venue Intelligence
+- AI Match Narratives
+- Strategic Performance Insights
+- Fault-Tolerant Data Pipelines
+
+</div>
+""", unsafe_allow_html=True)
+
 
 # -----------------------------
 # LOAD DATA
@@ -101,7 +130,17 @@ DATA_PATH = BASE_DIR / "data" / "processed" / "matches.csv"
 
 df = pd.read_csv(DATA_PATH)
 
+seasons = sorted(df["season"].dropna().unique())
 
+selected_season = st.sidebar.selectbox(
+    "Select Season",
+    ["All"] + list(seasons)
+)
+
+if selected_season != "All":
+    filtered_df = filtered_df[df["season"] == selected_season]
+else:
+    filtered_df = df.copy()
 # -----------------------------
 # SIDEBAR
 # -----------------------------
@@ -115,7 +154,8 @@ section = st.sidebar.radio(
         "Team Analytics",
         "Venue Insights",
         "Pressure Meter",
-        "Team DNA"
+        "Team DNA",
+        "Match Story Engine" 
     ]
 )
 
@@ -178,6 +218,14 @@ if section == "Overview":
 
     st.plotly_chart(fig, use_container_width=True)
 
+    csv = filtered_df.to_csv(index=False)
+
+    st.download_button(
+        label="Download Season Report",
+        data=csv,
+        file_name="ipl_insights_report.csv",
+        mime="text/csv"
+    )
 
 # -----------------------------
 # TEAM ANALYTICS
@@ -275,6 +323,18 @@ elif section == "Team DNA":
     )
 
     st.plotly_chart(fig, use_container_width=True)
+    
+    summary = generate_team_summary(selected_team)
+
+    st.markdown(f"""
+    <div class="insight-box">
+
+    ### AI Team Intelligence Summary
+
+    {summary}
+
+    </div>
+    """, unsafe_allow_html=True)
 
 elif section == "Pressure Meter":
 
@@ -307,3 +367,30 @@ elif section == "Pressure Meter":
 
     </div>
     """, unsafe_allow_html=True)
+
+elif section == "Match Story Engine":
+
+    st.header("AI Match Story Engine")
+
+    story = generate_match_story()
+
+    st.markdown(f"""
+    <div class="insight-box">
+
+    ### Dynamic Match Narrative
+
+    {story}
+
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    This AI-generated narrative engine transforms
+    statistical patterns into human-readable
+    strategic match insights.
+    """)
+
+st.markdown("""
+---
+Built with Streamlit, Plotly, Pandas, and AI-assisted analytics.
+""")
