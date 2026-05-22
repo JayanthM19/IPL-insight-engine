@@ -19,6 +19,22 @@ AI-powered IPL analytics and cricket intelligence platform built using fault-tol
 
 ---
 
+## Dashboard Preview
+
+### Overview Analytics
+![Overview](outputs/dashboardPic1.png)
+
+### Team DNA Engine
+![DNA](outputs/Team_DNA.png)
+
+### Team Pressure Meter
+![PressureMeter](outputs/PressureMeter.png)
+
+### Team Strategy
+![Strategy](outputs/Team_Strategy.png)
+
+### Team Analysis
+![Analysis](outputs/Team_Analysis.png)
 ## Tech Stack
 
 - Python
