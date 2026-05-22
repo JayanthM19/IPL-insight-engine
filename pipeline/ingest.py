@@ -7,7 +7,8 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-DATA_PATH = Path("data/raw/ipl_json")
+BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_PATH = BASE_DIR / "data" / "raw"
 
 
 def load_match_files():
