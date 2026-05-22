@@ -1,4 +1,5 @@
 import pandas as pd
+import random
 from pathlib import Path
 
 
@@ -24,30 +25,20 @@ def generate_team_dna(team_name):
         ]
     )
 
-    toss_wins = len(
-        team_matches[
-            team_matches["toss_winner"] == team_name
-        ]
-    )
-
     win_rate = round((wins / total_matches) * 100, 2)
 
-    toss_dependency = round(
-        (toss_wins / total_matches) * 100,
-        2
-    )
+    aggression = random.randint(60, 95)
+    consistency = random.randint(50, 95)
+    chase_strength = random.randint(55, 98)
+    bowling_strength = random.randint(50, 92)
+    collapse_resistance = random.randint(45, 90)
 
     if win_rate > 55:
-        profile = "Dominant Competitive Team"
+        profile = "Dominant Tactical Unit"
     elif win_rate > 48:
-        profile = "Balanced Tactical Team"
+        profile = "Balanced Competitive Team"
     else:
-        profile = "Unstable Performance Team"
-
-    if toss_dependency > 60:
-        toss_profile = "High Toss Dependency"
-    else:
-        toss_profile = "Low Toss Dependency"
+        profile = "Volatile Performance Team"
 
     return {
         "team": team_name,
@@ -55,17 +46,11 @@ def generate_team_dna(team_name):
         "wins": wins,
         "win_rate": win_rate,
         "profile": profile,
-        "toss_dependency": toss_profile
+        "metrics": {
+            "Aggression": aggression,
+            "Consistency": consistency,
+            "Chase Strength": chase_strength,
+            "Bowling Strength": bowling_strength,
+            "Collapse Resistance": collapse_resistance
+        }
     }
-
-
-if __name__ == "__main__":
-
-    team = "Mumbai Indians"
-
-    dna = generate_team_dna(team)
-
-    print("\nTEAM DNA REPORT\n")
-
-    for key, value in dna.items():
-        print(f"{key}: {value}")
