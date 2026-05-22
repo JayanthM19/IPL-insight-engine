@@ -4,6 +4,6 @@ __pycache__/
 .env
 data/raw/
 data/processed/
-outputs/
+
 .streamlit/
 .DS_Store
