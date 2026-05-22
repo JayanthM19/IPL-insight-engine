@@ -129,6 +129,3 @@ Gracefully handles incomplete and malformed match records.
 
 ---
 
-## License
-
-MIT License
